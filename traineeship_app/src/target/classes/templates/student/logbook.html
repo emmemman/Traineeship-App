@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
+
+    <title>Student Logbook</title>
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Student Logbook</h2>
+
+    <br><br><hr><br><br>
+
+    <h4>Logged as: <span sec:authentication="name"></span></h4>
+    <h4>Has role: <span sec:authentication="authorities"></span></h4>
+
+    <br><br><hr><br><br>
+
+    <!-- Αν ΔΕΝ έχει ανατεθειμένη πρακτική -->
+    <div th:if="${student.assignedTraineeship == null}">
+        <p>
+            You do not have an assigned traineeship yet,
+            therefore you cannot fill in the logbook.
+        </p>
+
+        <a th:href="@{/student/dashboard}" class="btn btn-secondary btn-sm mb-3">
+            Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Αν ΕΧΕΙ ανατεθειμένη πρακτική -->
+    <div th:if="${student.assignedTraineeship != null}">
+        <form th:action="@{/student/save_logbook}" method="post">
+
+            <div class="form-group">
+                <label for="logbook">Logbook</label>
+                <textarea id="logbook"
+                          name="logbook"
+                          class="form-control"
+                          rows="15"
+                          th:text="${student.logbook}">
+                </textarea>
+            </div>
+
+            <br>
+
+            <button type="submit" class="btn btn-primary btn-sm mb-3">
+                Save Logbook
+            </button>
+
+            <a th:href="@{/student/dashboard}" class="btn btn-secondary btn-sm mb-3">
+                Back
+            </a>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
+
+    <title>Assigned Traineeships</title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h3>Assigned / In-progress Traineeships</h3>
+    <hr>
+
+    <div class="alert alert-info" th:if="${positions == null || #lists.isEmpty(positions)}">
+        No assigned traineeships found.
+    </div>
+
+    <div th:if="${positions != null && !#lists.isEmpty(positions)}">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Company</th>
+                <th>Student</th>
+                <th>Supervisor</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Status</th>
+                <th style="min-width: 220px;">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="p : ${positions}">
+
+                <td th:text="${p.id}">1</td>
+                <td th:text="${p.title}">Title</td>
+
+                <td th:text="${p.company != null ? p.company.companyName : '-'}">Company</td>
+                <td th:text="${p.student != null ? p.student.studentName : '-'}">Student</td>
+                <td th:text="${p.supervisor != null ? p.supervisor.professorName : '-'}">Supervisor</td>
+
+                <td th:text="${p.fromDate}">2026-02-01</td>
+                <td th:text="${p.toDate}">2026-06-30</td>
+
+                <td>
+                    <span class="badge badge-secondary" th:if="${p.passFailGrade == null}">IN PROGRESS</span>
+                    <span class="badge badge-success" th:if="${p.passFailGrade != null and p.passFailGrade}">PASSED</span>
+                    <span class="badge badge-danger" th:if="${p.passFailGrade != null and !p.passFailGrade}">FAILED</span>
+                </td>
+
+                <td>
+                    <a class="btn btn-info btn-sm"
+                       th:href="@{/committee/monitor_traineeship(position_id=${p.id})}">
+                        Monitor
+                    </a>
+
+                    <span th:if="${p.passFailGrade == null}">
+            <a class="btn btn-success btn-sm ml-2"
+               th:href="@{/committee/finalize_traineeship(position_id=${p.id}, passFail=${true})}"
+               onclick="return confirm('Finalize this traineeship as PASS?');">
+              PASS
+            </a>
+
+            <a class="btn btn-danger btn-sm ml-1"
+               th:href="@{/committee/finalize_traineeship(position_id=${p.id}, passFail=${false})}"
+               onclick="return confirm('Finalize this traineeship as FAIL?');">
+              FAIL
+            </a>
+          </span>
+
+                    <span th:if="${p.passFailGrade != null}" class="text-muted ml-2">
+            Completed
+          </span>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a th:href="@{/committee/dashboard}">Back to Committee Dashboard</a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Professor Evaluation</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Professor Evaluation</h2>
+    <br>
+
+    <div class="card p-3">
+        <h5 th:text="${position.title}"></h5>
+        <p>Company: <span th:text="${position.company.username}"></span></p>
+    </div>
+
+    <br>
+
+    <form th:action="@{/professor/save_evaluation(position_id=${position.id})}" method="post">
+
+        <h5>Student (1 = bad, 5 = perfect)</h5>
+
+        <div class="form-group">
+            <label>Motivation</label>
+            <input type="number" min="1" max="5" class="form-control"
+                   name="motivation" th:value="${evaluation.motivation}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Effectiveness</label>
+            <input type="number" min="1" max="5" class="form-control"
+                   name="effectiveness" th:value="${evaluation.effectiveness}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Efficiency</label>
+            <input type="number" min="1" max="5" class="form-control"
+                   name="efficiency" th:value="${evaluation.efficiency}" required>
+        </div>
+
+        <hr>
+
+        <h5>Company (1 = bad, 5 = perfect)</h5>
+
+        <div class="form-group">
+            <label>Facilities provided</label>
+            <input type="number" min="1" max="5" class="form-control"
+                   name="companyFacilities" th:value="${evaluation.companyFacilities}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Guidance of trainee</label>
+            <input type="number" min="1" max="5" class="form-control"
+                   name="companyGuidance" th:value="${evaluation.companyGuidance}" required>
+        </div>
+
+        <br>
+
+        <button type="submit" class="btn btn-success">Save Evaluation</button>
+        <a th:href="@{/professor/list_traineeships}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+</div>
+</body>
+</html>
