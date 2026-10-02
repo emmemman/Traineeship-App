@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Available Positions</title>
+</head>
+<body>
+<div class="container">
+    <h3>Assigned Traineeship Positions</h3>
+
+    <p th:if="${positions == null or positions.isEmpty()}">
+        No assigned traineeship positions found.
+    </p>
+
+    <table th:if="${positions != null and !positions.isEmpty()}"
+           class="table table-bordered table-striped">
+        <thead  class="thead-dark">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Student</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="pos : ${positions}">
+            <td th:text="${pos.title}">Title</td>
+            <td th:text="${pos.description}">Description</td>
+
+            <!-- αν δεν έχεις student object, άλλαξε αυτό στο field που έχεις -->
+            <td th:text="${pos.student != null ? pos.student.username : 'N/A'}">Student</td>
+
+            <td th:text="${pos.fromDate}">From</td>
+            <td th:text="${pos.toDate}">To</td>
+            <td>Assigned</td>
+            <td>
+                <a th:href="@{/company/evaluate(position_id=${pos.id})}"
+                   class="btn btn-success btn-sm">
+                    Evaluate
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <a th:href="@{/company/dashboard}">Back to Company dashboard</a>
+</div>
+</body>
+</html>

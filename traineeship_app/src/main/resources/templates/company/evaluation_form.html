@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          crossorigin="anonymous">
+
+    <title>Company Evaluation</title>
+</head>
+
+<body>
+<div class="container">
+
+    <h3>Company Evaluation</h3>
+    <hr>
+
+    <p>
+        <b>Position:</b> <span th:text="${position.title}">Title</span>
+    </p>
+
+    <form th:action="@{/company/save_evaluation(position_id=${position.id})}"
+          th:object="${evaluation}" method="post">
+
+        <div class="form-group">
+            <label>Motivation (1-5)</label>
+            <input type="number" min="1" max="5" class="form-control" th:field="*{motivation}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Efficiency (1-5)</label>
+            <input type="number" min="1" max="5" class="form-control" th:field="*{efficiency}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Effectiveness (1-5)</label>
+            <input type="number" min="1" max="5" class="form-control" th:field="*{effectiveness}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a th:href="@{/company/list_assigned_positions}" class="btn btn-secondary">Cancel</a>
+
+    </form>
+
+</div>
+</body>
+</html>

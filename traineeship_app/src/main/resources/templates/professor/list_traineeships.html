@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Supervised Traineeships</title>
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+          crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Supervised Traineeship Positions</h2>
+
+    <br><hr><br>
+
+    <h5>
+        Logged as:
+        <span sec:authentication="name"></span>
+    </h5>
+
+    <br>
+
+    <!-- Αν δεν υπάρχουν traineeships -->
+    <div th:if="${#lists.isEmpty(traineeships)}" class="alert alert-info">
+        You do not supervise any traineeship positions.
+    </div>
+
+    <!-- Πίνακας traineeships -->
+    <table th:if="${!#lists.isEmpty(traineeships)}"
+           class="table table-bordered table-striped">
+
+        <thead class="thead-dark">
+        <tr>
+            <th>Company</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Topics</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Assigned</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="t : ${traineeships}">
+            <td th:text="${t.company.username}"></td>
+            <td th:text="${t.title}"></td>
+            <td th:text="${t.description}"></td>
+            <td th:text="${t.topics}"></td>
+            <td th:text="${t.fromDate}"></td>
+            <td th:text="${t.toDate}"></td>
+            <td th:text="${t.assigned ? 'Yes' : 'No'}"></td>
+            <th>
+                <a th:href="@{/professor/evaluate(position_id=${t.id})}"
+                   class="btn btn-primary btn-sm">Evaluate</a>
+            </th>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <a th:href="@{/professor/dashboard}"
+       class="btn btn-secondary btn-sm">
+        Back to Dashboard
+    </a>
+
+</div>
+</body>
+</html>
